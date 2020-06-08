@@ -1,5 +1,6 @@
 package com.example.test;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.WebDriverRunner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
@@ -43,13 +44,15 @@ public class SelenideTest {
         $x("//div[@class='r']/a[@href='https://www.open.ru/']").shouldBe(visible).click();
         switchTo().window(title);  // переключился в другую вкладку, т.к. в контейнере ссылка открывается в другой вкладке
 
-        String bu = $x("//tr[2]/td[2]/div/span").shouldBe(visible).getText().replace(",",".");
+        ElementsCollection rates = $$(By.xpath("//span[contains(@class,'main-page-exchange__rate')]"));
+
+        String bu = rates.get(0).getText().replace(",",".");
         double sumBuy_USD = Double.parseDouble(bu);
-        String su = $x("//tr[2]/td[4]/div/span").getText().replace(",",".");
+        String su = rates.get(1).getText().replace(",",".");
         double sumSell_USD = Double.parseDouble(su);
-        String be = $x("//tr[3]/td[2]/div/span").getText().replace(",",".");
+        String be = rates.get(2).getText().replace(",",".");
         double sumBuy_EUR = Double.parseDouble(be);
-        String se = $x("//tr[3]/td[4]/div/span").getText().replace(",",".");
+        String se = rates.get(3).getText().replace(",",".");
         double sumSell_EUR = Double.parseDouble(se);
 
         WebDriverRunner.closeWebDriver();
